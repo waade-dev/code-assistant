@@ -41,10 +41,15 @@ def list_files() -> str:
     except Exception as e:
         return f"Error listing files: {e}"
 
-def run_terminal_command(command: str) -> str:
-    """Runs a terminal command and returns the output. Use this to run scripts or check system state."""
+def run_terminal_command(command: str, input_text: str = None) -> str:
+    """Runs a terminal command and returns the output.
+    
+    Args:
+        command: The command to run.
+        input_text: Optional text to send to the command's stdin (e.g., for interactive scripts).
+    """
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=60)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, input=input_text, timeout=60)
         output = f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         return output
     except subprocess.TimeoutExpired:
